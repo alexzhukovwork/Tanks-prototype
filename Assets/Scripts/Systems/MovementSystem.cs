@@ -14,7 +14,7 @@ public class MovementSystem : UpdateSystem
     public override void OnUpdate(float deltaTime) {
         foreach (var entity in filter) {
             ref var unit = ref entity.GetComponent<MovementComponent>(out _);
-            unit.Position += Vector3.one * deltaTime;
+            unit.Position += unit.Speed * deltaTime * unit.Dir;
         }
     }
 }

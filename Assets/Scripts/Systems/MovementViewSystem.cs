@@ -19,8 +19,9 @@ public class MovementViewSystem : UpdateSystem
         for (int i = 0; i < filter.Length; i++) {
             ref var view = ref views.GetComponent(i);
             ref var unit = ref units.GetComponent(i);
-
-            view.transform.position = unit.Position;
+            
+            
+            view.Rigidbody2D.velocity = unit.Speed * unit.Dir;
         }
     }
 }
