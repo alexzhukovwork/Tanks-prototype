@@ -3,8 +3,8 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(InputSystem))]
-public class InputSystem : UpdateSystem
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(InputMovementSystem))]
+public class InputMovementSystem : UpdateSystem
 {
     private Filter filter;
 
