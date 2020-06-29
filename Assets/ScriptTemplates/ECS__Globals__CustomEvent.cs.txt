@@ -1,0 +1,6 @@
+﻿using UnityEngine;
+using Morpeh.Globals;
+
+[CreateAssetMenu(menuName = "ECS/Globals/Custom/" + nameof(#SCRIPTNAME#))]
+public class #SCRIPTNAME# : BaseGlobalEvent<> {
+}
