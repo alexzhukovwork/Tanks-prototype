@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using Morpeh;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WeaponSystemBase))]
-public abstract class WeaponSystemBase : UpdateSystem
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WeaponSystem))]
+public class WeaponSystem : UpdateSystem
 {
-    [SerializeField]
-    protected GameObject Bullet;
+    [SerializeField] 
+    private PoolSystemBase PoolSystem;
     
     private Filter filterPlayer;
-    
-    protected GameObject bullet;
 
     private int damage = 1;
     private float speed = 5;
@@ -19,10 +17,8 @@ public abstract class WeaponSystemBase : UpdateSystem
     protected BulletProvider bulletProvider;
     protected MovementProvider movementProvider;
     protected TransformProvider transformProvider;
-    protected Collider2DProvider collider2DProvider;
 
     private static readonly float TOLERANCE = 0.1f;
-    private static readonly float MINIMAL_VELOCITY = 0.5f;
     public override void OnAwake()
     {
         filterPlayer = Filter.All.With<PlayerComponent>().With<TransformComponent>();
@@ -38,17 +34,11 @@ public abstract class WeaponSystemBase : UpdateSystem
                 movementProvider.GetData(out _).Dir = CalculateDir(playerTransform.Transform);
                 transformProvider.GetData(out _).Transform.position = 
                     playerTransform.Transform.position + movementProvider.GetData(out _).Dir / 2;
+                transformProvider.GetData(out _).Transform.rotation = playerTransform.Transform.rotation;
                 movementProvider.GetData(out _).Speed = speed;
                 bulletProvider.GetData(out _).Damage = damage;
+                bulletProvider.GetData(out _).UnitType = EUnitType.Teammate;
             }
-        }
-
-        if (collider2DProvider != null) {
-            List<RaycastHit2D> raycastHit2D = new List<RaycastHit2D>();
-            collider2DProvider.GetData(out _).Collider2D.Raycast(movementProvider.GetData(out _).Dir, 
-                new ContactFilter2D(), raycastHit2D, 0.1f);
-            if (raycastHit2D.Count > 0)
-                OnBulletCollised();
         }
     }
 
@@ -67,7 +57,14 @@ public abstract class WeaponSystemBase : UpdateSystem
         return dir;
     }
 
-    protected abstract void GetBulletComponents();
+    protected void GetBulletComponents()
+    {
+        var gameObject = PoolSystem.Pop();
+        
+        gameObject.SetActive(true);
 
-    protected abstract void OnBulletCollised();
+        bulletProvider = gameObject.GetComponent<BulletProvider>();
+        transformProvider = gameObject.GetComponent<TransformProvider>();
+        movementProvider = gameObject.GetComponent<MovementProvider>();
+    }
 }

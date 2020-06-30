@@ -8,7 +8,7 @@ public class MovementSystem : UpdateSystem
     
     public override void OnAwake()
     {
-        filter = Filter.All.With<MovementComponent>();
+        filter = Filter.All.With<MovementComponent>().Without<InactiveComponent>();
     }
 
     public override void OnUpdate(float deltaTime) {

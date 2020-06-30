@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Damage: 0
+    Bullet: {fileID: 4082491237511305242}
 --- !u!114 &731798289
 MonoBehaviour:
   m_ObjectHideFlags: 0

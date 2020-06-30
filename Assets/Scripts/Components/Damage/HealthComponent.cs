@@ -5,4 +5,6 @@ using UnityEngine;
 public struct HealthComponent : IComponent
 {
     public int Health;
+    public EUnitType UnitType;
+    public GameObject GameObject;
 }

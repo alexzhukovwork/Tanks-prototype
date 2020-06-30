@@ -5,4 +5,6 @@ using UnityEngine;
 public struct BulletComponent : IComponent
 {
     public int Damage;
+    public EUnitType UnitType;
+    public GameObject Bullet;
 }
