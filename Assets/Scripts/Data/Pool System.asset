@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67facaa24cc3e9d4b8128eb0f6a4375f, type: 3}
   m_Name: Pool System
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 0}
-  PoolSize: 10
+  BulletPrefab: {fileID: 4082491237511305242, guid: 1137a81251d3179449898ee937623d5f,
+    type: 3}
+  PoolParent: {fileID: 7469498948139114464, guid: 773cf701d04ab6f47a66046fb2544a1d,
+    type: 3}
+  PoolSize: 11
   AddPercent: 0.1
+  StartEvent: {fileID: 11400000, guid: ddd14c4099b7af0479598da670d826be, type: 2}

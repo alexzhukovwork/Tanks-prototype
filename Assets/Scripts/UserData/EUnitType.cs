@@ -1,6 +1,6 @@
 ﻿public enum EUnitType
 {
-    Teammate,
-    Enemy,
+    FirstPlayer,
+    SecondPlayer,
     Other
 }

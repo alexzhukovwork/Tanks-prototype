@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05976b7cdd95e14992cdc87db0dca22, type: 3}
   m_Name: Weapon System
   m_EditorClassIdentifier: 
-  PoolSystem: {fileID: 0}
+  PoolSystem: {fileID: 11400000, guid: 7c23764f409e7e64695feab2b1b7f1d9, type: 2}

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: d277915812d625747835b36ce2c8ccba
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - LoseGameEvent: {fileID: 11400000, guid: 459b5c7a90438c7469ff7cffaa35d3b0, type: 2}
+  - WinGameEvent: {fileID: 11400000, guid: e34297bfe43232d4d85c47c1e078cae3, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

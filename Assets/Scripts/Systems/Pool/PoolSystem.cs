@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Morpeh;
+using Morpeh.Globals;
+using Photon.Pun;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(PoolSystem))]
@@ -10,6 +13,9 @@ public class PoolSystem : PoolSystemBase {
     [SerializeField] 
     private float AddPercent = 0.1f;
 
+    [SerializeField] 
+    private GlobalEvent StartEvent;
+    
     private Filter activeFilter;
     private Filter afterCreateBullets;
 
@@ -19,17 +25,23 @@ public class PoolSystem : PoolSystemBase {
 
     public override void OnAwake()
     {
-        InstantiatePool();
-
         activeFilter = Filter.All.With<InactiveComponent>().With<BulletComponent>().
-            Without<PoolComponent>();
+            Without<PoolComponent>().With<PhotonViewComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
     {
+        if (StartEvent.IsPublished)
+            InstantiatePool();
+
+        var photonComponents = activeFilter.Select<PhotonViewComponent>();
+        
         for (int i = 0; i < activeFilter.Length; i++) {
-            activeFilter.GetEntity(i).AddComponent<PoolComponent>();
-            inactiveBullets.Push(activeFilter.GetEntity(i));
+
+            if (photonComponents.GetComponent(i).PhotonView.IsMine) {
+                activeFilter.GetEntity(i).AddComponent<PoolComponent>();
+                inactiveBullets.Push(activeFilter.GetEntity(i));
+            }
         }
     }
 
@@ -55,7 +67,7 @@ public class PoolSystem : PoolSystemBase {
 
     private void InstantiatePool()
     {
-        var gameObject = new GameObject();
+        var gameObject = PhotonNetwork.Instantiate(PoolParent.name, Vector3.zero, Quaternion.identity);
         
         gameObject.name = nameof(PoolSystem);
 
@@ -69,7 +81,8 @@ public class PoolSystem : PoolSystemBase {
         inactiveBullets = new Stack<IEntity>();
         
         for (int i = 0; i < count; i++) {
-            Instantiate(BulletPrefab, parentPool);
+            var bullet = PhotonNetwork.Instantiate(BulletPrefab.name, Vector3.zero, Quaternion.identity);
+            bullet.transform.SetParent(parentPool);
         }
 
         afterCreateBullets = Filter.All.With<BulletComponent>().Without<InactiveComponent>();

@@ -6,5 +6,8 @@ public abstract class PoolSystemBase : UpdateSystem {
     [SerializeField] 
     protected GameObject BulletPrefab;
 
+    [SerializeField] 
+    protected GameObject PoolParent;
+    
     public abstract GameObject Pop();
 }
