@@ -1,52 +1,32 @@
 ﻿using Morpeh;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(BulletCollisionSystem))]
-public class BulletCollisionSystem : FixedUpdateSystem
-{
-    private Filter bulletFilter;
-    private Filter objectFilter;
-    
-    public override void OnAwake()
+public class BulletCollisionSystem : CollisionSystem {
+    protected override void OnCollision(IEntity first, IEntity second)
     {
-        bulletFilter = Filter.All.With<BulletComponent>().With<TransformComponent>().
-            With<Collider2DComponent>().Without<InactiveComponent>();
+        var bullet = first.GetComponent<BulletComponent>();
+        var health = second.GetComponent<HealthComponent>();
 
-        objectFilter = Filter.All.With<Collider2DComponent>().With<HealthComponent>();
+        if (health.UnitType != bullet.UnitType) {
+            ref var damagedComponent =
+                ref second.AddComponent<DamagedComponent>(out _);
+            damagedComponent.Bullet = bullet;
+        }
     }
 
-    public override void OnUpdate(float deltaTime)
+    protected override Filter InstantiateFirstObjectFilter()
     {
-        var objectColliders = objectFilter.Select<Collider2DComponent>();
-        var objectHealth = objectFilter.Select<HealthComponent>();
-        var bulletColliders = bulletFilter.Select<Collider2DComponent>();
-        var bullets = bulletFilter.Select<BulletComponent>();
+        Filter filter = Filter.All.With<BulletComponent>().With<TransformComponent>().
+            With<Collider2DComponent>().Without<InactiveComponent>();
 
-        for (int i = 0; i < bulletFilter.Length; i++) {
-            var bulletCollider = bulletColliders.GetComponent(i);
-            var bullet = bullets.GetComponent(i);
-            
-            Collider2D [] colliders = new Collider2D[1];
-            
-            if (bulletCollider.Collider2D.GetContacts(new ContactFilter2D(), colliders) > 0) {
+        return filter;
+    }
 
-                for (int j = 0; j < objectFilter.Length; j++) {
-                        
-                    if (objectColliders.GetComponent(j).Collider2D.Equals(colliders[0])) {
-                        ref var health = ref objectHealth.GetComponent(j);
-
-                        if (health.UnitType != bullet.UnitType) {
-                            ref var damagedComponent =
-                                ref objectFilter.GetEntity(j).AddComponent<DamagedComponent>(out _);
-                            damagedComponent.Bullet = bullet;
-                        }
-                    }
-                }
-                
-                bulletFilter.GetEntity(i).AddComponent<InactiveComponent>();
-            }
-        }
-
+    protected override Filter InstantiateSecondObjectFilter()
+    {
+        Filter filter = Filter.All.With<Collider2DComponent>().With<HealthComponent>();
+        
+        return filter;
     }
 }

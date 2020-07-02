@@ -11,15 +11,24 @@ namespace Pun
 {
     public class ConnectAndJoinRandomTank : ConnectAndJoinRandom
     {
-        [SerializeField] private GameObject PanelPlay;
-        [SerializeField] private TextMeshProUGUI SearchingText;
-        [SerializeField] private Button PlayerButton;
+        [SerializeField] 
+        private GameObject PanelPlay;
+        
+        [SerializeField] 
+        private TextMeshProUGUI SearchingText;
+        
+        [SerializeField] 
+        private Button PlayerButton;
 
-        [SerializeField] private GlobalEvent GlobalEvent;
+        [SerializeField] 
+        private GlobalEvent GlobalEvent;
+
+        [SerializeField] 
+        private int MinimalPlayerCount = 1;
         
         private int countNumber = 3;
         
-        private string[] searchingTexts = {"Play searching", "Play searching.", "Play searching..", "Play searching..."};
+        private string[] searchingTexts = {"Player searching", "Player searching.", "Player searching..", "Player searching..."};
         
         public void Disconnect()
         {
@@ -45,7 +54,7 @@ namespace Pun
                 yield return waitForSeconds;
             }
             
-            while (PhotonNetwork.CurrentRoom.PlayerCount == 1) {
+            while (PhotonNetwork.CurrentRoom.PlayerCount < MinimalPlayerCount) {
                 SearchingText.text = searchingTexts[i++];
 
                 i = i < searchingTexts.Length ? i : 0;
