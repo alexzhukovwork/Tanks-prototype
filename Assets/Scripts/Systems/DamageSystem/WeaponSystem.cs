@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Morpeh;
 using Photon.Pun;
+using Pun;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WeaponSystem))]
@@ -9,8 +10,10 @@ public class WeaponSystem : UpdateSystem
 {
     [SerializeField] 
     private PoolSystemBase PoolSystem;
-    
+
     private Filter filterPlayer;
+
+    private Filter filterEventHandler;
 
     private int damage = 1;
     private float speed = 5;
@@ -24,9 +27,25 @@ public class WeaponSystem : UpdateSystem
     {
         filterPlayer = Filter.All.With<PlayerComponent>().With<TransformComponent>().With<PhotonViewComponent>().
             With<HealthComponent>().Without<InactiveComponent>();
+
+        filterEventHandler = Filter.All.With<EventHandlerComponnet>().With<PhotonViewComponent>();
     }
 
-    public override void OnUpdate(float deltaTime) {
+    public override void OnUpdate(float deltaTime)
+    {
+        EventHandlerTanks eventHandler = null;
+
+        var handlers = filterEventHandler.Select<EventHandlerComponnet>();
+        var photons = filterEventHandler.Select<PhotonViewComponent>();
+
+        for (int i = 0; i < filterEventHandler.Length; i++) {
+            var handler = handlers.GetComponent(i);
+            var photon = photons.GetComponent(i);
+
+            if (photon.PhotonView.IsMine)
+                eventHandler = handler.EventHandlerTanks;
+        }
+        
         if (Input.GetKeyDown(KeyCode.Space)) {
             var playerTransforms = filterPlayer.Select<TransformComponent>();
             var photonViews = filterPlayer.Select<PhotonViewComponent>();
@@ -46,6 +65,16 @@ public class WeaponSystem : UpdateSystem
                     movementProvider.GetData(out _).Speed = speed;
                     bulletProvider.GetData(out _).Damage = damage;
                     bulletProvider.GetData(out _).UnitType = health.UnitType;
+                    
+                    
+                    eventHandler?.SendShot(
+                        bulletProvider.GetData(out _).Damage,
+                        bulletProvider.GetData(out _).UnitType,
+                        transformProvider.GetData(out _).Transform.position,
+                        transformProvider.GetData(out _).Transform.rotation,
+                        movementProvider.GetData(out _).Dir,
+                        movementProvider.GetData(out _).Speed
+                    );
                 }
             }
         }

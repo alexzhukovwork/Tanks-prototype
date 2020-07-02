@@ -9,7 +9,7 @@ public class InstanceSystem : PoolSystemBase
     
     public override GameObject Pop()
     {
-        return PhotonNetwork.Instantiate(BulletPrefab.name, Vector3.zero, Quaternion.identity);
+        return Instantiate(BulletPrefab, Vector3.zero, Quaternion.identity);
     }
 
     public override void OnAwake()
@@ -27,9 +27,9 @@ public class InstanceSystem : PoolSystemBase
             ref var photon = ref photons.GetComponent(i);
 
             if (photon.PhotonView.IsMine) {
-           //     PhotonNetwork.Destroy(bullet.Bullet);
-         //       filter.GetEntity(i).RemoveComponent<BulletComponent>();
-          //      filter.GetEntity(i).RemoveComponent<InactiveComponent>();
+                PhotonNetwork.Destroy(bullet.Bullet);
+                filter.GetEntity(i).RemoveComponent<BulletComponent>();
+                filter.GetEntity(i).RemoveComponent<InactiveComponent>();
             }
         }
     }

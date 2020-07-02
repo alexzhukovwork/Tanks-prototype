@@ -67,7 +67,7 @@ public class PoolSystem : PoolSystemBase {
 
     private void InstantiatePool()
     {
-        var gameObject = PhotonNetwork.Instantiate(PoolParent.name, Vector3.zero, Quaternion.identity);
+        var gameObject = Instantiate(PoolParent, Vector3.zero, Quaternion.identity);
         
         gameObject.name = nameof(PoolSystem);
 
@@ -81,7 +81,7 @@ public class PoolSystem : PoolSystemBase {
         inactiveBullets = new Stack<IEntity>();
         
         for (int i = 0; i < count; i++) {
-            var bullet = PhotonNetwork.Instantiate(BulletPrefab.name, Vector3.zero, Quaternion.identity);
+            var bullet = Instantiate(BulletPrefab, Vector3.zero, Quaternion.identity);
             bullet.transform.SetParent(parentPool);
         }
 

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7311743325897813804}
   - component: {fileID: 7311743325897813805}
   - component: {fileID: 7311743325897813807}
+  - component: {fileID: 5864071449958009580}
+  - component: {fileID: 9150443315166424043}
   m_Layer: 0
   m_Name: EventHandler
   m_TagString: Untagged
@@ -44,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48cce98ecff67c549a0c48de333f8e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PoolSystem: {fileID: 11400000, guid: 7c23764f409e7e64695feab2b1b7f1d9, type: 2}
 --- !u!114 &7311743325897813807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,3 +69,31 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &5864071449958009580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311743325897813802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ee263bb00a4d5419eebc19cc544399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    EventHandlerTanks: {fileID: 7311743325897813805}
+--- !u!114 &9150443315166424043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7311743325897813802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef5bff267f2b1a488be5a348f98ca82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedData:
+    PhotonView: {fileID: 7311743325897813807}
