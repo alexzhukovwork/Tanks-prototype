@@ -54,7 +54,7 @@ public class SpeedBoosterCollisionSystem : CollisionSystem
     protected override Filter InstantiateFirstObjectFilter()
     {
         Filter filter = Filter.All.With<SpeedBoosterComponent>().
-            With<Collider2DComponent>();
+            With<Collider2DComponent>().Without<PlayerComponent>();
 
         return filter;
     }

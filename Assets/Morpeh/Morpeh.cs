@@ -111,6 +111,7 @@ namespace Morpeh {
 
             if (this.Has<T>()) {
 #if UNITY_EDITOR
+                Debug.LogError(typeof(T));
                 Debug.LogError("You add component which already exist! Use Get or SetComponent instead!");
 #endif
                 return ref CacheComponents<T>.Empty();

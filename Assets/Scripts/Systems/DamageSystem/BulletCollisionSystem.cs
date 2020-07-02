@@ -13,6 +13,7 @@ public class BulletCollisionSystem : CollisionSystem {
                 ref second.AddComponent<DamagedComponent>(out _);
             damagedComponent.Bullet = bullet;
         }
+
     }
 
     protected override Filter InstantiateFirstObjectFilter()

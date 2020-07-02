@@ -25,8 +25,7 @@ public class PoolSystem : PoolSystemBase {
 
     public override void OnAwake()
     {
-        activeFilter = Filter.All.With<InactiveComponent>().With<BulletComponent>().
-            Without<PoolComponent>().With<PhotonViewComponent>();
+        activeFilter = Filter.All.With<InactiveComponent>().With<BulletComponent>().Without<PoolComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
@@ -34,14 +33,10 @@ public class PoolSystem : PoolSystemBase {
         if (StartEvent.IsPublished)
             InstantiatePool();
 
-        var photonComponents = activeFilter.Select<PhotonViewComponent>();
         
         for (int i = 0; i < activeFilter.Length; i++) {
-
-            if (photonComponents.GetComponent(i).PhotonView.IsMine) {
-                activeFilter.GetEntity(i).AddComponent<PoolComponent>();
-                inactiveBullets.Push(activeFilter.GetEntity(i));
-            }
+            activeFilter.GetEntity(i).AddComponent<PoolComponent>();
+            inactiveBullets.Push(activeFilter.GetEntity(i));
         }
     }
 

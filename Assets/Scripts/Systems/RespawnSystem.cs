@@ -13,7 +13,8 @@ public class RespawnSystem : UpdateSystem
     public override void OnAwake()
     {
         filter = Filter.All.With<RespawnComponent>().With<DeadComponent>().
-            With<HealthComponent>().With<TransformComponent>().With<ImmortalEffectComponent>();
+            With<HealthComponent>().With<TransformComponent>().With<ImmortalEffectComponent>().
+            With<PlayerComponent>();
     }
 
     public override void OnUpdate(float deltaTime)

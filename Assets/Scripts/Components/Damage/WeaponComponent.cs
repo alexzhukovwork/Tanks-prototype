@@ -6,5 +6,6 @@ public struct WeaponComponent : IComponent
 {
     public int Damage;
     public int BulletSpeed;
-    public int Cooldown;
+    public float Cooldown;
+    public float TimeToNextShot;
 }

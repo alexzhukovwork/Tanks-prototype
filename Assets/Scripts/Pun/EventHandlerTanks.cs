@@ -44,6 +44,7 @@ namespace Pun
         {
             photonView.RPC("Shot", RpcTarget.Others, damage, unitType, position, rotation,
                 dir, speed);
+            
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
