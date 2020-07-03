@@ -1,5 +1,7 @@
-﻿using Photon.Pun;
+﻿using System;
+using Photon.Pun;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Pun
 {
@@ -46,9 +48,10 @@ namespace Pun
 
         public void SpawnBooster()
         {
-            if (HasAnyBooster() || !PhotonNetwork.IsConnected)
+            if (HasAnyBooster() || !PhotonNetwork.IsConnected) {
                 return;
-            
+            }
+
             int index = Random.Range(0, Boosters.Length);
 
             Vector3 position = GetRandomPosition();

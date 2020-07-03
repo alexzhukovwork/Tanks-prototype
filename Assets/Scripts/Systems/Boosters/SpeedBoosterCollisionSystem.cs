@@ -49,6 +49,8 @@ public class SpeedBoosterCollisionSystem : CollisionSystem
         newSpeedBooster.OldSpeed = movementComponent.Speed;
 
         movementComponent.Speed = newSpeedBooster.NewSpeed;
+
+        first.RemoveComponent<InactiveComponent>();
     }
 
     protected override Filter InstantiateFirstObjectFilter()
