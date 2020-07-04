@@ -12,8 +12,6 @@ public abstract class CollisionSystem : FixedUpdateSystem
     {
         firstObjectFilter = InstantiateFirstObjectFilter();
         secondObjectFilter = InstantiateSecondObjectFilter();
-
-        secondObjectFilter = Filter.All.With<Collider2DComponent>().Without<InactiveComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
@@ -22,18 +20,19 @@ public abstract class CollisionSystem : FixedUpdateSystem
         var firstColliders = firstObjectFilter.Select<Collider2DComponent>();
 
         for (int i = 0; i < firstObjectFilter.Length; i++) {
-            var firstCollider = firstColliders.GetComponent(i);
-            
-            Collider2D [] colliders = new Collider2D[1];
-            
-            if (firstCollider.Collider2D.GetContacts(new ContactFilter2D(), colliders) > 0) {
+            ref var firstCollider = ref firstColliders.GetComponent(i);
 
+            if (firstCollider.Collsion2D != null) {
                 for (int j = 0; j < secondObjectFilter.Length; j++) {
-                        
-                    if (secondColliders.GetComponent(j).Collider2D.Equals(colliders[0])) {
+
+                    Debug.Log(firstCollider.Collsion2D.otherCollider.gameObject.name);
+                    
+                    if (secondColliders.GetComponent(j).Collider2D.Equals(firstCollider.Collsion2D.otherCollider)) {
                         OnCollision(firstObjectFilter.GetEntity(i), secondObjectFilter.GetEntity(j));
                     }
                 }
+
+                firstCollider.Collsion2D = null;
                 
                 firstObjectFilter.GetEntity(i).AddComponent<InactiveComponent>();
             }

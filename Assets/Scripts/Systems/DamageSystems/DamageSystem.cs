@@ -8,7 +8,7 @@ public class DamageSystem : UpdateSystem
     
     public override void OnAwake()
     {
-        filter = Filter.All.With<DamagedComponent>().With<HealthComponent>();
+        filter = Filter.All.With<DamagedComponent>().With<HealthComponent>().Without<TilemapComponent>();
     }
 
     public override void OnUpdate(float deltaTime)

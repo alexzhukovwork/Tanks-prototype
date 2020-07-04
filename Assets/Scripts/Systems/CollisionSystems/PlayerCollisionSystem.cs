@@ -1,8 +1,8 @@
 ﻿using Morpeh;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(BulletCollisionSystem))]
-public class BulletCollisionSystem : CollisionSystem {
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(PlayerCollisionSystem))]
+public class PlayerCollisionSystem : CollisionSystem {
     protected override void OnCollision(IEntity first, IEntity second)
     {
         var bullet = first.GetComponent<BulletComponent>();
@@ -13,7 +13,6 @@ public class BulletCollisionSystem : CollisionSystem {
                 ref second.AddComponent<DamagedComponent>(out _);
             damagedComponent.Bullet = bullet;
         }
-
     }
 
     protected override Filter InstantiateFirstObjectFilter()
@@ -26,7 +25,7 @@ public class BulletCollisionSystem : CollisionSystem {
 
     protected override Filter InstantiateSecondObjectFilter()
     {
-        Filter filter = Filter.All.With<Collider2DComponent>().With<HealthComponent>();
+        Filter filter = Filter.All.With<Collider2DComponent>().With<HealthComponent>().Without<BulletComponent>();
         
         return filter;
     }
