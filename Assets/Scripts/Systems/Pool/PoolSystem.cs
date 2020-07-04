@@ -25,13 +25,15 @@ public class PoolSystem : PoolSystemBase {
 
     public override void OnAwake()
     {
+        InstantiatePool();
+
         activeFilter = Filter.All.With<InactiveComponent>().With<BulletComponent>().Without<PoolComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        if (StartEvent.IsPublished)
-            InstantiatePool();
+       // if (StartEvent.IsPublished)
+           // InstantiatePool();
 
         
         for (int i = 0; i < activeFilter.Length; i++) {

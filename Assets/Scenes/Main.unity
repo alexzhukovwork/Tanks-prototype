@@ -2616,7 +2616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateSystems:
   - enabled: 1
-    system: {fileID: 11400000, guid: 77af15d3cc148074185eb69a9b1d8ebd, type: 2}
+    system: {fileID: 11400000, guid: 48209d04d3e983241950146c6ad628ff, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: e3a4c37cae14c394dbbc1558e8a7d30c, type: 2}
   - enabled: 1
@@ -2628,7 +2628,7 @@ MonoBehaviour:
   - enabled: 1
     system: {fileID: 11400000, guid: 89a3839f0707ede489e47f79780803df, type: 2}
   - enabled: 1
-    system: {fileID: 11400000, guid: 88821be2073b4084ca183e5ce868d11d, type: 2}
+    system: {fileID: 11400000, guid: 35ea602b3ee3333458d0e208c92789d1, type: 2}
   - enabled: 1
     system: {fileID: 11400000, guid: 2791fdf593e8ad443918b96793849ff8, type: 2}
   - enabled: 1
@@ -2888,7 +2888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &889570515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3716,7 +3716,7 @@ MonoBehaviour:
   SearchingText: {fileID: 549964698}
   PlayerButton: {fileID: 348211116}
   GlobalEvent: {fileID: 11400000, guid: d14d8d4d3014a744d8278eea061a9ea9, type: 2}
-  MinimalPlayerCount: 2
+  MinimalPlayerCount: 1
 --- !u!114 &1747913024
 MonoBehaviour:
   m_ObjectHideFlags: 0

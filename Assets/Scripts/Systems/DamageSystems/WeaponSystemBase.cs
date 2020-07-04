@@ -5,8 +5,8 @@ using Photon.Pun;
 using Pun;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WeaponSystem))]
-public class WeaponSystem : UpdateSystem
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(WeaponSystemBase))]
+public abstract class WeaponSystemBase : UpdateSystem
 {
     [SerializeField] 
     private PoolSystemBase PoolSystem;
@@ -22,8 +22,7 @@ public class WeaponSystem : UpdateSystem
     private static readonly float TOLERANCE = 0.1f;
     public override void OnAwake()
     {
-        filterPlayer = Filter.All.With<PlayerComponent>().With<TransformComponent>().With<PhotonViewComponent>().
-            With<HealthComponent>().Without<InactiveComponent>().With<WeaponComponent>();
+        filterPlayer = GetWeaponObject();
 
         filterEventHandler = Filter.All.With<EventHandlerComponnet>().With<PhotonViewComponent>();
     }
@@ -34,16 +33,15 @@ public class WeaponSystem : UpdateSystem
 
         UpdateWeaponTime(deltaTime);
         
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            var photonViews = filterPlayer.Select<PhotonViewComponent>();
-            
-            for (int i = 0; i < filterPlayer.Length; i++) {
-                
+        var photonViews = filterPlayer.Select<PhotonViewComponent>();
+        
+        for (int i = 0; i < filterPlayer.Length; i++) {
+            if (NeedToShot(filterPlayer.GetEntity(i))) {
                 var photonView = photonViews.GetComponent(i);
-                
-                if (photonView.PhotonView.IsMine) {
+
+              //  if (photonView.PhotonView.IsMine) {
                     MakeShot(eventHandler, filterPlayer.GetEntity(i));
-                }
+              //  }
             }
         }
     }
@@ -60,7 +58,6 @@ public class WeaponSystem : UpdateSystem
             if (weapon.TimeToNextShot < 0)
                 weapon.TimeToNextShot = 0;
         }
-
     }
 
     private void MakeShot(EventHandlerTanks eventHandler, IEntity player)
@@ -79,7 +76,7 @@ public class WeaponSystem : UpdateSystem
             movementProvider.GetData(out _).Speed = weapon.BulletSpeed;
             bulletProvider.GetData(out _).Damage = weapon.Damage;
             bulletProvider.GetData(out _).UnitType = health.UnitType;
-
+/*
             eventHandler.SendShot(
                 bulletProvider.GetData(out _).Damage,
                 bulletProvider.GetData(out _).UnitType,
@@ -88,7 +85,7 @@ public class WeaponSystem : UpdateSystem
                 movementProvider.GetData(out _).Dir,
                 movementProvider.GetData(out _).Speed
             );
-
+*/
             weapon.TimeToNextShot = weapon.Cooldown;
         }
     }
@@ -136,4 +133,8 @@ public class WeaponSystem : UpdateSystem
         transformProvider = gameObject.GetComponent<TransformProvider>();
         movementProvider = gameObject.GetComponent<MovementProvider>();
     }
+
+    protected abstract bool NeedToShot(IEntity entity);
+
+    protected abstract Filter GetWeaponObject();
 }

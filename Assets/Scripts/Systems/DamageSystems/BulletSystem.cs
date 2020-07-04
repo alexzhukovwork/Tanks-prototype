@@ -14,7 +14,7 @@ public class BulletSystem : UpdateSystem
     {
         filter = Filter.All.With<InactiveComponent>().With<BulletComponent>();
 
-        bulletFilter = Filter.All.With<BulletComponent>().With<PhotonViewComponent>();
+        bulletFilter = Filter.All.With<BulletComponent>().Without<InactiveComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
@@ -22,15 +22,15 @@ public class BulletSystem : UpdateSystem
         var bulletComponents = filter.Select<BulletComponent>();
 
         var bullets = bulletFilter.Select<BulletComponent>();
-        var photons = bulletFilter.Select<PhotonViewComponent>();
+      //  var photons = bulletFilter.Select<PhotonViewComponent>();
 
-        for (int i = 0; i < bulletFilter.Length; i++) {
-            ref var bullet = ref bullets.GetComponent(i);
-            ref var photon = ref photons.GetComponent(i);
+ //       for (int i = 0; i < bulletFilter.Length; i++) {
+       //     ref var bullet = ref bullets.GetComponent(i);
+   //         ref var photon = ref photons.GetComponent(i);
 
-            if (!photon.PhotonView.IsMine)
-                bullet.UnitType = InstantiateTanks.EnemyType;
-        }
+         /*   if (!photon.PhotonView.IsMine)
+                bullet.UnitType = InstantiateTanks.EnemyType;*/
+ //       }
         
         for (int i = 0; i < filter.Length; i++) {
             ref var bulletComponent = ref bulletComponents.GetComponent(i);

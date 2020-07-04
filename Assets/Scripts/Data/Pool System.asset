@@ -16,6 +16,6 @@ MonoBehaviour:
     type: 3}
   PoolParent: {fileID: 7469498948139114464, guid: 773cf701d04ab6f47a66046fb2544a1d,
     type: 3}
-  PoolSize: 15
+  PoolSize: 10
   AddPercent: 0.1
   StartEvent: {fileID: 11400000, guid: ddd14c4099b7af0479598da670d826be, type: 2}
