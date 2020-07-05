@@ -5,12 +5,13 @@ using Photon.Pun;
 
 namespace Pun
 {
-    public class EventHandlerTanks : Photon.Pun.MonoBehaviourPun, IPunObservable
+    public class ShotNotifier : Photon.Pun.MonoBehaviourPun, IPunObservable
     {
         [SerializeField] 
         private PoolSystemBase PoolSystem;
         
         private PhotonView photonView;
+        
         private void Start()
         {
             photonView = PhotonView.Get(this);

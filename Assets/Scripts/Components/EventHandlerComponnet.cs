@@ -5,5 +5,5 @@ using UnityEngine;
 [System.Serializable]
 public struct EventHandlerComponnet : IComponent
 {
-    public EventHandlerTanks EventHandlerTanks;
+    public ShotNotifier shotNotifier;
 }

@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b05976b7cdd95e14992cdc87db0dca22, type: 3}
-  m_Name: Weapon System
+  m_Script: {fileID: 11500000, guid: 47dfb41a40c17ca48a71a6b54cb96165, type: 3}
+  m_Name: Tilemap Damage System
   m_EditorClassIdentifier: 
-  PoolSystem: {fileID: 11400000, guid: 642754f189f2488419daa12df19784ac, type: 2}
+  Tilemap: {fileID: 3579746928093409940, guid: 40557f7f67e141c42a881a6668110c5c, type: 3}
+  TilemapHealth: {fileID: 11400000, guid: 9eb679a464356564fa1105be1c4e3731, type: 2}

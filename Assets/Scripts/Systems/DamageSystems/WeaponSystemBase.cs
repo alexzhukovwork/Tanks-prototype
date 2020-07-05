@@ -29,7 +29,7 @@ public abstract class WeaponSystemBase : UpdateSystem
 
     public override void OnUpdate(float deltaTime)
     {
-        EventHandlerTanks eventHandler = GetEventHandler();
+        ShotNotifier eventHandler = GetEventHandler();
 
         UpdateWeaponTime(deltaTime);
         
@@ -60,7 +60,7 @@ public abstract class WeaponSystemBase : UpdateSystem
         }
     }
 
-    private void MakeShot(EventHandlerTanks eventHandler, IEntity player)
+    private void MakeShot(ShotNotifier eventHandler, IEntity player)
     {
         ref var playerTransform = ref player.GetComponent<TransformComponent>();
         ref var health = ref player.GetComponent<HealthComponent>();
@@ -105,9 +105,9 @@ public abstract class WeaponSystemBase : UpdateSystem
         return dir;
     }
 
-    private EventHandlerTanks GetEventHandler()
+    private ShotNotifier GetEventHandler()
     {
-        EventHandlerTanks eventHandler = null;
+        ShotNotifier eventHandler = null;
 
         var handlers = filterEventHandler.Select<EventHandlerComponnet>();
         var photons = filterEventHandler.Select<PhotonViewComponent>();
@@ -117,7 +117,7 @@ public abstract class WeaponSystemBase : UpdateSystem
             var photon = photons.GetComponent(i);
 
             if (photon.PhotonView.IsMine)
-                eventHandler = handler.EventHandlerTanks;
+                eventHandler = handler.shotNotifier;
         }
 
         return eventHandler;

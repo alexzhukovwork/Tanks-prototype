@@ -2,8 +2,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(CollisionSystem))]
-public abstract class CollisionSystem : FixedUpdateSystem
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(BulletCollisionSystem))]
+public class BulletCollisionSystem : FixedUpdateSystem
 {
     protected Filter firstObjectFilter;
     protected Filter secondObjectFilter;
@@ -24,22 +24,44 @@ public abstract class CollisionSystem : FixedUpdateSystem
 
             if (firstCollider.Collsion2D != null) {
                 for (int j = 0; j < secondObjectFilter.Length; j++) {
-
-                    Debug.Log(firstCollider.Collsion2D.otherCollider.gameObject.name);
-                    
                     if (secondColliders.GetComponent(j).Collider2D.Equals(firstCollider.Collsion2D.otherCollider)) {
                         OnCollision(firstObjectFilter.GetEntity(i), secondObjectFilter.GetEntity(j));
                     }
                 }
 
                 firstCollider.Collsion2D = null;
-                
                 firstObjectFilter.GetEntity(i).AddComponent<InactiveComponent>();
             }
         }
     }
 
-    protected abstract void OnCollision(IEntity first, IEntity second);
-    protected abstract Filter InstantiateFirstObjectFilter();
-    protected abstract Filter InstantiateSecondObjectFilter();
+    private void OnCollision(IEntity first, IEntity second)
+    {
+        var bullet = first.GetComponent<BulletComponent>();
+        var health = second.GetComponent<HealthComponent>();
+
+        ref var bulletCollider = ref first.GetComponent<Collider2DComponent>();
+        
+        if (health.UnitType != bullet.UnitType) {
+            ref var damagedComponent =
+                ref second.AddComponent<DamagedComponent>(out _);
+            damagedComponent.Bullet = bullet;
+            damagedComponent.BulletCollider = bulletCollider;
+        }
+    }
+
+    private Filter InstantiateFirstObjectFilter()
+    {
+        Filter filter = Filter.All.With<BulletComponent>().With<TransformComponent>().
+            With<Collider2DComponent>().Without<InactiveComponent>();
+
+        return filter;
+    }
+
+    private Filter InstantiateSecondObjectFilter()
+    {
+        Filter filter = Filter.All.With<Collider2DComponent>().With<HealthComponent>().Without<BulletComponent>();
+        
+        return filter;
+    }
 }

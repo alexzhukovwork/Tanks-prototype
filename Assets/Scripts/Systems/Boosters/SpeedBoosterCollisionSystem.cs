@@ -2,11 +2,11 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(SpeedBoosterCollisionSystem))]
-public class SpeedBoosterCollisionSystem : CollisionSystem
+public class SpeedBoosterCollisionSystem : UpdateSystem
 {
     private Filter playerWithSpeedBooster;
     
-    public override void OnAwake()
+ /*   public override void OnAwake()
     {
         base.OnAwake();
 
@@ -66,5 +66,14 @@ public class SpeedBoosterCollisionSystem : CollisionSystem
         Filter filter = Filter.All.With<Collider2DComponent>().With<PlayerComponent>().With<MovementComponent>();
             
         return filter;
-    }
+    }*/
+ public override void OnAwake()
+ {
+     throw new System.NotImplementedException();
+ }
+
+ public override void OnUpdate(float deltaTime)
+ {
+     throw new System.NotImplementedException();
+ }
 }

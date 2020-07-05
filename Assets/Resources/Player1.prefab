@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serializedData:
     Collider2D: {fileID: 3414224832344279876}
+  IgnoreTag: Bullet
 --- !u!114 &-5916454343784886613
 MonoBehaviour:
   m_ObjectHideFlags: 0

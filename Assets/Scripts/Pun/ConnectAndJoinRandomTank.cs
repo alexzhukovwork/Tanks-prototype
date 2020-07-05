@@ -1,40 +1,67 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Morpeh.Globals;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
-using Photon.Realtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Views;
 
 namespace Pun
 {
     public class ConnectAndJoinRandomTank : ConnectAndJoinRandom
     {
         [SerializeField] 
-        private GameObject PanelPlay;
+        private StartGameView StartGameView;
         
         [SerializeField] 
-        private TextMeshProUGUI SearchingText;
+        private GlobalEvent StartGameEvent;
+
+        [SerializeField] 
+        private GlobalEvent NewGameEvent;
         
-        [SerializeField] 
-        private Button PlayerButton;
-
-        [SerializeField] 
-        private GlobalEvent GlobalEvent;
-
+        [SerializeField]
+        private GlobalEvent DisconnectEvent;
+        
+        [SerializeField]
+        private GlobalEvent PlayButtonEvent;
+        
         [SerializeField] 
         private int MinimalPlayerCount = 1;
-        
+
         private int countNumber = 3;
+
+        private static readonly string SCENE_NAME = "Main";
         
-        private string[] searchingTexts = {"Player searching", "Player searching.", "Player searching..", "Player searching..."};
-        
+        public override void OnEnable()
+        {
+            base.OnEnable();
+
+            NewGameEvent.Subscribe(OnNewGame);
+            DisconnectEvent.Subscribe(OnNewGame);
+            PlayButtonEvent.Subscribe(OnPlayButton);
+        }
+
+        private void OnPlayButton(IEnumerable<int> obj)
+        {
+            StartGameView.SetPlayInteractable(false);
+            ConnectNow();
+        }
+
+        private void OnNewGame(IEnumerable<int> obj)
+        {
+            StartGameView.ActivateView();
+            StartGameView.SetPlayInteractable(false);
+            
+            Disconnect();
+        }
+
         public void Disconnect()
         {
-            PanelPlay.SetActive(true);
-            PlayerButton.interactable = true;
-            SearchingText.text = string.Empty;
+            StartGameView.ActivateView();
+            
+            StartGameView.SetSearchingText(string.Empty);
             
             PhotonNetwork.Disconnect();
         }
@@ -55,29 +82,31 @@ namespace Pun
             }
             
             while (PhotonNetwork.CurrentRoom.PlayerCount < MinimalPlayerCount) {
-                SearchingText.text = searchingTexts[i++];
+                StartGameView.UpdateSearchingText();
 
-                i = i < searchingTexts.Length ? i : 0;
-                    
                 yield return waitForSeconds;
             }
 
-            TextAlignmentOptions textAlignment = SearchingText.alignment;
-            SearchingText.alignment = TextAlignmentOptions.Center;
+            var parameters = new LoadSceneParameters(LoadSceneMode.Additive);
+
+            var operation = SceneManager.LoadSceneAsync(SCENE_NAME, parameters);
+
+            while (operation.isDone) {
+                StartGameView.UpdateSearchingText();
+                yield return waitForSeconds;
+            }
             
+            StartGameView.DisableView();
+
             for (i = countNumber; i > 0; i--) {
-                SearchingText.text = i.ToString();
+                StartGameView.SetTimerText(i.ToString());
                 
                 yield return waitForSeconds;
             }
-
-            SearchingText.alignment = textAlignment;
             
-            SearchingText.text = string.Empty;
+            StartGameView.SetTimerText(string.Empty);
             
-            PanelPlay.SetActive(false);
-            
-            GlobalEvent.Publish();
+            StartGameEvent.Publish();
         }
     }
 }

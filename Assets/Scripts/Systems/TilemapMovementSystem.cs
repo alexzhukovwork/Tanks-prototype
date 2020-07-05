@@ -21,9 +21,16 @@ public class TilemapMovementSystem : UpdateSystem
 
     public override void OnUpdate(float deltaTime)
     {
+        if (Tilemap == null) {
+            Filter tilemapFilter = Filter.All.With<TilemapHealthComponent>().With<TilemapComponent>();
+
+            if (tilemapFilter.Length > 0)
+                Tilemap = tilemapFilter.GetEntity(0).GetComponent<TilemapComponent>().Tilemap;
+        }
+        
         var size = Tilemap.size;
         PathFind.Grid grid = GetPathFindGrid();
-
+        
         foreach (var entity in filter) {
             var pathFinder = entity.GetComponent<PathFinderComponent>();
             var transform = entity.GetComponent<TransformComponent>();
@@ -58,7 +65,6 @@ public class TilemapMovementSystem : UpdateSystem
             
         bool[,] tilesmap = new bool[size.x, size.y];
         
-
         BoundsInt bounds = Tilemap.cellBounds;
         TileBase[] allTiles = Tilemap.GetTilesBlock(bounds);
 
@@ -76,7 +82,7 @@ public class TilemapMovementSystem : UpdateSystem
         return grid;
     }
     
-    private Vector3Int ToPathSystem(Vector3Int size, Vector3Int data)
+    public static Vector3Int ToPathSystem(Vector3Int size, Vector3Int data)
     {
         data.x += size.x / 2;
         data.y += size.y / 2;

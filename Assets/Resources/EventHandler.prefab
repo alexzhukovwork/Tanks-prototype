@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedData:
-    EventHandlerTanks: {fileID: 7311743325897813805}
+    shotNotifier: {fileID: 0}
 --- !u!114 &9150443315166424043
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47486e37e15883d448b360c2aad1ff90, type: 3}
-  m_Name: Input System
+  m_Script: {fileID: 11500000, guid: fabdcf170ecbc414cb1ea21c779f3d98, type: 3}
+  m_Name: TilemapHealth
   m_EditorClassIdentifier: 
+  Tiles:
+  - Ground_22
+  Health: 02000000
