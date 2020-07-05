@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8f6c23911c422f4a97b342cf2ee186c, type: 3}
+  m_Name: Bot Spawner System
+  m_EditorClassIdentifier: 
+  Bots:
+  - {fileID: 8390784421048734425, guid: f0b0941105658804ead0991aba2dd820, type: 3}
+  - {fileID: 8390784421048734425, guid: d0839c1381157a5448c5ce6cc20ee779, type: 3}
+  Positions:
+  - {fileID: 3924538065371927014, guid: 0947d7f110efc614693f37e82cfed120, type: 3}
+  - {fileID: 9215682657696995520, guid: bbba1441b783b274cba4706d368418a5, type: 3}
+  TimeFirstBotSpawn: 15
+  TimePerSpawn: 45

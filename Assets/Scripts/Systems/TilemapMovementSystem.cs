@@ -7,36 +7,36 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TilemapMovementSystem))]
 public class TilemapMovementSystem : UpdateSystem
 {
-    [SerializeField] 
-    private Tilemap Tilemap;
+    private Tilemap tilemap;
 
     private float speed = 0.01f;
     
     private Filter filter;
+    private Filter tilemapFilter;
     
     public override void OnAwake()
     {
         filter = Filter.All.With<PathFinderComponent>().With<TransformComponent>();
+
+        tilemapFilter = Filter.All.With<TilemapComponent>();
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        if (Tilemap == null) {
-            Filter tilemapFilter = Filter.All.With<TilemapHealthComponent>().With<TilemapComponent>();
-
-            if (tilemapFilter.Length > 0)
-                Tilemap = tilemapFilter.GetEntity(0).GetComponent<TilemapComponent>().Tilemap;
+        foreach (var entity in tilemapFilter) {
+            tilemap = entity.GetComponent<TilemapComponent>().Tilemap;
+            break;
         }
         
-        var size = Tilemap.size;
+        var size = tilemap.size;
         PathFind.Grid grid = GetPathFindGrid();
         
         foreach (var entity in filter) {
             var pathFinder = entity.GetComponent<PathFinderComponent>();
             var transform = entity.GetComponent<TransformComponent>();
 
-            var start = Tilemap.WorldToCell(transform.Transform.position);
-            var target = Tilemap.WorldToCell(pathFinder.Target.position);
+            var start = tilemap.WorldToCell(transform.Transform.position);
+            var target = tilemap.WorldToCell(pathFinder.Target.position);
 
             start = ToPathSystem(size, start);
             target = ToPathSystem(size, target);
@@ -61,22 +61,23 @@ public class TilemapMovementSystem : UpdateSystem
 
     private PathFind.Grid GetPathFindGrid()
     {
-        var size = Tilemap.size;
+        var size = tilemap.size;
             
         bool[,] tilesmap = new bool[size.x, size.y];
         
-        BoundsInt bounds = Tilemap.cellBounds;
-        TileBase[] allTiles = Tilemap.GetTilesBlock(bounds);
+        BoundsInt bounds = tilemap.cellBounds;
 
-        for (int x = 0; x < bounds.size.x; x++) {
-
-            for (int y = 0; y < bounds.size.y; y++) {
-                TileBase tile = allTiles[x + y * bounds.size.x];
-
-                tilesmap[x, y] = tile == null;
+        for (int x = bounds.min.x; x < bounds.max.x; x++) {
+            for (int y = bounds.min.y; y < bounds.max.y; y++) {
+                for (int z = bounds.min.z; z < bounds.max.z; z++) {
+                    Vector3Int p = new Vector3Int(x, y, z);
+                    Vector3Int p1 = ToPathSystem(tilemap.size, p);
+                    
+                    tilesmap[p1.x, p1.y] = tilemap.GetTile(p) == null;
+                }
             }
         }
-        
+
         PathFind.Grid grid = new PathFind.Grid(size.x, size.y, tilesmap);
 
         return grid;
@@ -93,14 +94,6 @@ public class TilemapMovementSystem : UpdateSystem
         data.y = Math.Min(data.y, size.y - 1);
         data.y = Math.Max(0, data.y);
         
-        return data;
-    }
-
-    private Vector3Int ToTilemapSystem(Vector3Int size, Vector3Int data)
-    {
-        data.x -= size.x / 2;
-        data.y -= size.y / 2;
-
         return data;
     }
 }

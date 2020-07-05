@@ -1747,7 +1747,7 @@ RectTransform:
   - {fileID: 274539352}
   - {fileID: 853948923}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1780,10 +1780,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1026638077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b28dd60f6abf16d4094cf0f642a043e2, type: 3}
+  m_Script: {fileID: 11500000, guid: c24444bedfdd44e4f82c7932bc69e36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
+  DisconnectEvent: {fileID: 11400000, guid: e34297bfe43232d4d85c47c1e078cae3, type: 2}
 --- !u!4 &1026638079
 Transform:
   m_ObjectHideFlags: 0
@@ -1967,7 +1968,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1616595157
 GameObject:
@@ -2088,7 +2089,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1747913022
 GameObject:
@@ -2129,7 +2130,7 @@ MonoBehaviour:
   NewGameEvent: {fileID: 11400000, guid: 9a1a3eb2a6899414ea8e393172de9299, type: 2}
   DisconnectEvent: {fileID: 11400000, guid: 2ce7224a79986b249940635de2abccb3, type: 2}
   PlayButtonEvent: {fileID: 11400000, guid: 5869e4905cc2bb049adcf97e557e4bc0, type: 2}
-  MinimalPlayerCount: 1
+  MinimalPlayerCount: 2
 --- !u!114 &1747913024
 MonoBehaviour:
   m_ObjectHideFlags: 0

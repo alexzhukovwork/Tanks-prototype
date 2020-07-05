@@ -6,12 +6,12 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(TilemapDamageSystem))]
 public class TilemapDamageSystem : UpdateSystem {
     [SerializeField] 
-    private Tilemap Tilemap;
-
-    [SerializeField] 
     private TilemapHealth TilemapHealth;
     
+    private Tilemap tilemap;
+
     private Filter filter;
+    private Filter tilemapFilter;
 
     private Dictionary<string, int> healthDictionary;
 
@@ -20,8 +20,8 @@ public class TilemapDamageSystem : UpdateSystem {
     public override void OnAwake()
     {
         filter = Filter.All.With<DamagedComponent>().With<HealthComponent>().With<TilemapComponent>();
-
-        InstantiateHealth();
+        
+        tilemapFilter = Filter.All.With<TilemapComponent>();
     }
 
     private void InstantiateHealth()
@@ -35,32 +35,44 @@ public class TilemapDamageSystem : UpdateSystem {
             healthDictionary.Add(tiles[i], healths[i]);
         }
         
-        BoundsInt bounds = Tilemap.cellBounds;
-        TileBase[] allTiles = Tilemap.GetTilesBlock(bounds);
-
+        BoundsInt bounds = tilemap.cellBounds;
         cellHealths = new int[bounds.size.x][];
-        
-        for (int x = 0; x < bounds.size.x; x++) {
 
-            cellHealths[x] = new int[bounds.size.y];
+        for (int x = bounds.min.x; x < bounds.max.x; x++) {
             
-            for (int y = 0; y < bounds.size.y; y++) {
-                TileBase tile = allTiles[x + y * bounds.size.x];
+            cellHealths[x + tilemap.size.x / 2] = new int[bounds.size.y];
+            
+            for (int y = bounds.min.y; y < bounds.max.y; y++) {
+                for (int z = bounds.min.z; z < bounds.max.z; z++) {
+                    Vector3Int p = new Vector3Int(x, y, z);
+                    Vector3Int p1 = TilemapMovementSystem.ToPathSystem(tilemap.size, p);
+                    
+                    TileBase tile = tilemap.GetTile(p);
 
-                if (tile != null)
-                    cellHealths[x][y] = healthDictionary[tile.name];
-                else
-                    cellHealths[x][y] = 0;
+                    if (tile != null)
+                        cellHealths[p1.x][p1.y] = healthDictionary[tile.name];
+                    else
+                        cellHealths[p1.x][p1.y] = 0;
+                }
             }
         }
     }
 
     public override void OnUpdate(float deltaTime)
     {
+        foreach (var entity in tilemapFilter) {
+            tilemap = entity.GetComponent<TilemapComponent>().Tilemap;
+            
+            if (healthDictionary == null)
+                InstantiateHealth();
+            
+            break;
+        }
+
         if (cellHealths == null)
             return;
         
-        var bounds = Tilemap.cellBounds;
+        var bounds = tilemap.cellBounds;
         
         foreach (var entity in filter) {
             ref var tilemap = ref entity.GetComponent<TilemapComponent>().Tilemap;

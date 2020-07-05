@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tiles:
   - Ground_22
-  Health: 02000000
+  - Ground_6
+  Health: 0200000004000000

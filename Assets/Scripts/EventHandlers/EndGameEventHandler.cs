@@ -48,14 +48,19 @@ namespace UI
 
         private IEnumerator UnloadSceneAsync()
         {
-            var asyncOperation = SceneManager.UnloadSceneAsync(SCENE_NAME);
-            
-            WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
 
-            while (!asyncOperation.isDone) {
-                yield return waitForSeconds;
+            if (SceneManager.sceneCount > 1) {
+                var asyncOperation = SceneManager.UnloadSceneAsync(SCENE_NAME);
+
+                WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
+
+                if (asyncOperation != null) {
+                    while (!asyncOperation.isDone) {
+                        yield return waitForSeconds;
+                    }
+                }
             }
-            
+
             endGameView.SetNewGameInteractable(true);
         }
 

@@ -5,7 +5,7 @@ using Photon.Pun;
 
 namespace Pun
 {
-    public class ShotNotifier : Photon.Pun.MonoBehaviourPun, IPunObservable
+    public class ShotNotifier : MonoBehaviourPun, IPunObservable
     {
         [SerializeField] 
         private PoolSystemBase PoolSystem;

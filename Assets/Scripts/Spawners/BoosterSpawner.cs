@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,8 +31,11 @@ namespace Pun
         }
 
         [PunRPC]
-        private void SpawnBoosterRPC(int index, Vector3 position)
+        private void SpawnBoosterRPC(int index, Vector3 position, bool isMine)
         {
+            if (!isMine)
+                CancelInvoke(nameof(SpawnBooster));
+            
             Boosters[index].SetActive(true);
 
             Boosters[index].transform.position = position;
@@ -46,7 +51,7 @@ namespace Pun
             return position;
         }
 
-        public void SpawnBooster()
+        private void SpawnBooster()
         {
             if (HasAnyBooster() || !PhotonNetwork.IsConnected) {
                 return;
@@ -56,11 +61,11 @@ namespace Pun
 
             Vector3 position = GetRandomPosition();
             
-            SpawnBoosterRPC(index, position);
-            photonView.RPC("SpawnBoosterRPC", RpcTarget.Others, index, position);
+            SpawnBoosterRPC(index, position, true);
+            photonView.RPC("SpawnBoosterRPC", RpcTarget.Others, index, position, false);
         }
 
-        public bool HasAnyBooster()
+        private bool HasAnyBooster()
         {
             bool hasBooster = false;
             

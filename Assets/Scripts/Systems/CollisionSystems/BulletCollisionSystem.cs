@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName = "ECS/Systems/" + nameof(BulletCollisionSystem))]
 public class BulletCollisionSystem : FixedUpdateSystem
 {
-    protected Filter firstObjectFilter;
-    protected Filter secondObjectFilter;
+    private Filter firstObjectFilter;
+    private Filter secondObjectFilter;
     
     public override void OnAwake()
     {

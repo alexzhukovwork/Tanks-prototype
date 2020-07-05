@@ -56,11 +56,11 @@ public abstract class InputMovementSystemBase : UpdateSystem
         ref var unitMovementComponent = ref entity.GetComponent<MovementComponent>();
         ref var unitTransformComponent = ref entity.GetComponent<TransformComponent>();
         ref var photonComponent = ref entity.GetComponent<PhotonViewComponent>();
-
-        //  if (photonComponent.PhotonView.IsMine) {
-        unitMovementComponent.Dir = dir;
-        unitTransformComponent.Transform.rotation = rotation;
-        // }
+        
+        if (photonComponent.PhotonView.IsMine) {
+            unitMovementComponent.Dir = dir;
+            unitTransformComponent.Transform.rotation = rotation;
+        }
     }
     
     protected abstract bool IsUp();

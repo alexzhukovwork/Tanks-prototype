@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d11c51f20aecb749b3ad1bdd989402a, type: 3}
-  m_Name: Speed Booster Collision System
+  m_Script: {fileID: 11500000, guid: 47dfb41a40c17ca48a71a6b54cb96165, type: 3}
+  m_Name: Tilemap Damage System
   m_EditorClassIdentifier: 
+  TilemapHealth: {fileID: 11400000, guid: 9eb679a464356564fa1105be1c4e3731, type: 2}

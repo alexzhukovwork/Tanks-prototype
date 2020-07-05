@@ -8,12 +8,14 @@ public class StartSystem : UpdateSystem
     [SerializeField] 
     private GlobalEvent StartEvent;
     
-    private Filter filter;
+    private Filter playerFilter;
     private Filter emblemFilter;
+    private Filter botFilter;
     
     public override void OnAwake() {
         emblemFilter = Filter.All.With<EmblemComponent>().With<RespawnComponent>().With<HealthComponent>();
-        filter = Filter.All.With<PlayerComponent>().With<InactiveComponent>();
+        playerFilter = Filter.All.With<PlayerComponent>().With<InactiveComponent>();
+        botFilter = Filter.All.With<PathFinderComponent>().With<InactiveComponent>();
     }
 
     public override void OnUpdate(float deltaTime) {
@@ -28,8 +30,12 @@ public class StartSystem : UpdateSystem
                 health.GameObject.SetActive(true);
                 health.Health = respawn.health;
             }
+
+            foreach (var entity in botFilter) {
+                entity.RemoveComponent<InactiveComponent>();
+            }
             
-            foreach (var entity in filter) {
+            foreach (var entity in playerFilter) {
                 entity.RemoveComponent<InactiveComponent>();
             }
         }

@@ -15,11 +15,12 @@ public abstract class WeaponSystemBase : UpdateSystem
 
     private Filter filterEventHandler;
 
-    protected BulletProvider bulletProvider;
-    protected MovementProvider movementProvider;
-    protected TransformProvider transformProvider;
+    private BulletProvider bulletProvider;
+    private MovementProvider movementProvider;
+    private TransformProvider transformProvider;
 
     private static readonly float TOLERANCE = 0.1f;
+    
     public override void OnAwake()
     {
         filterPlayer = GetWeaponObject();
@@ -39,9 +40,9 @@ public abstract class WeaponSystemBase : UpdateSystem
             if (NeedToShot(filterPlayer.GetEntity(i))) {
                 var photonView = photonViews.GetComponent(i);
 
-              //  if (photonView.PhotonView.IsMine) {
+                if (photonView.PhotonView.IsMine) {
                     MakeShot(eventHandler, filterPlayer.GetEntity(i));
-              //  }
+                }
             }
         }
     }
@@ -76,7 +77,7 @@ public abstract class WeaponSystemBase : UpdateSystem
             movementProvider.GetData(out _).Speed = weapon.BulletSpeed;
             bulletProvider.GetData(out _).Damage = weapon.Damage;
             bulletProvider.GetData(out _).UnitType = health.UnitType;
-/*
+
             eventHandler.SendShot(
                 bulletProvider.GetData(out _).Damage,
                 bulletProvider.GetData(out _).UnitType,
@@ -85,7 +86,7 @@ public abstract class WeaponSystemBase : UpdateSystem
                 movementProvider.GetData(out _).Dir,
                 movementProvider.GetData(out _).Speed
             );
-*/
+
             weapon.TimeToNextShot = weapon.Cooldown;
         }
     }

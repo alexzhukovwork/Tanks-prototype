@@ -54,6 +54,8 @@ namespace Pun
             StartGameView.ActivateView();
             StartGameView.SetPlayInteractable(false);
             
+            StopCoroutine(nameof(WaitPlayer));
+
             Disconnect();
         }
 

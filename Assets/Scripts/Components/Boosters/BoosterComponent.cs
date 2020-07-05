@@ -2,5 +2,6 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct HealthBoosterComponent : IComponent {
+public struct BoosterComponent : IComponent {
+    
 }

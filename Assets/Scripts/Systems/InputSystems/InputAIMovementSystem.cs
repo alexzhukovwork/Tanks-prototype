@@ -34,14 +34,6 @@ public class InputAIMovementSystem : InputMovementSystemBase
         }
 
         base.OnUpdate(deltaTime);
-
-        for (int i = 0; i < transformComponents.Count; i++) {
-
-      /*      if (pathComponents[i].Distance == 0)
-                transformComponents[i].Transform.rotation = RotateTo(
-                    transformComponents[i].Transform,
-                    pathFinderComponents[i].Target);*/
-        }
     }
 
     private void OnUpdateStart()
@@ -53,16 +45,6 @@ public class InputAIMovementSystem : InputMovementSystemBase
         currentIndex = 0;
     }
 
-    private Quaternion RotateTo(Transform current, Transform target)
-    {
-        Vector3 vectorToTarget = target.position - current.position;
-        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        
-        
-        return q;
-    }
-    
     protected override bool IsUp()
     {
         Vector2Int dir = GetDir();

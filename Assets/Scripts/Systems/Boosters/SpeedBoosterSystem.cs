@@ -1,12 +1,12 @@
 ﻿using Morpeh;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(SpeedBoosterCollisionSystem))]
-public class SpeedBoosterCollisionSystem : UpdateSystem
+[CreateAssetMenu(menuName = "ECS/Systems/" + nameof(SpeedBoosterSystem))]
+public class SpeedBoosterSystem : BoosterTriggerSystem
 {
     private Filter playerWithSpeedBooster;
     
- /*   public override void OnAwake()
+    public override void OnAwake()
     {
         base.OnAwake();
 
@@ -33,8 +33,8 @@ public class SpeedBoosterCollisionSystem : UpdateSystem
             }
         }
     }
-
-    protected override void OnCollision(IEntity first, IEntity second)
+    
+    protected override void OnTrigger(IEntity first, IEntity second)
     {
         var speedBooster = first.GetComponent<SpeedBoosterComponent>();
 
@@ -56,7 +56,7 @@ public class SpeedBoosterCollisionSystem : UpdateSystem
     protected override Filter InstantiateFirstObjectFilter()
     {
         Filter filter = Filter.All.With<SpeedBoosterComponent>().
-            With<Collider2DComponent>().Without<PlayerComponent>();
+            With<Collider2DComponent>().With<BoosterComponent>();
 
         return filter;
     }
@@ -66,14 +66,5 @@ public class SpeedBoosterCollisionSystem : UpdateSystem
         Filter filter = Filter.All.With<Collider2DComponent>().With<PlayerComponent>().With<MovementComponent>();
             
         return filter;
-    }*/
- public override void OnAwake()
- {
-     throw new System.NotImplementedException();
- }
-
- public override void OnUpdate(float deltaTime)
- {
-     throw new System.NotImplementedException();
- }
+    }
 }
